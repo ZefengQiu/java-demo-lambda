@@ -1,28 +1,27 @@
 package javaDataScreamingDemo;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.SQSEvent;
+import com.amazonaws.services.lambda.runtime.events.SQSEvent.SQSMessage;
 
 /**
  * Handler for requests to Lambda function.
  */
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-public class App implements RequestHandler<Object, String> {
+public class App implements RequestHandler<SQSEvent, String> {
 
     @Override
-    public String handleRequest(Object input, Context context) {
-        context.getLogger().log("Input: " + input);
+    public String handleRequest(SQSEvent input, Context context) {
+        System.out.println("get message!");
+        List<SQSMessage> records = input.getRecords();
 
-        // TODO: implement your handler
-        return "Hello from Lambda";
+        for (SQSMessage record : records) {
+            System.out.println(record.getBody());
+        }
+
+        return "Ok";
     }
-
 }

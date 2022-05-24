@@ -1,0 +1,3 @@
+## Manually build
+
+mvn package
