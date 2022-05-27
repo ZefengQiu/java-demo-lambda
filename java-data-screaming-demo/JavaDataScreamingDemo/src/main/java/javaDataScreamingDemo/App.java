@@ -16,10 +16,14 @@ public class App implements RequestHandler<SQSEvent, String> {
     @Override
     public String handleRequest(SQSEvent input, Context context) {
         System.out.println("get message!");
+        if(input == null || input.getRecords().size() == 0) {
+            return "input is empty.";
+        }
+
         List<SQSMessage> records = input.getRecords();
 
         for (SQSMessage record : records) {
-            System.out.println(record.getBody());
+            System.out.println(new String(record.getBody()));
         }
 
         return "Ok";
